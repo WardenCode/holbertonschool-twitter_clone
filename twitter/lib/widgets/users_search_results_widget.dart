@@ -55,7 +55,7 @@ class UserSearchResultsWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "@$username",
+                  username,
                   style: TextStyle(
                     color: Colors.grey[500]!,
                     fontSize: 16,

@@ -16,12 +16,12 @@ class BarMenu extends StatefulWidget {
 class _BarMenuState extends State<BarMenu> {
   late int _selectedIndex = 0;
 
-  final List<String> _titles = const [
-    "Home",
-    "Search",
-    "Notifications",
-    "Chats"
-  ];
+  // final List<String> _titles = const [
+  //   "Home",
+  //   "Search",
+  //   "Notifications",
+  //   "Chats"
+  // ];
 
   final List<Widget> _widgetOptions = const [
     HomeScreen(),
@@ -39,26 +39,26 @@ class _BarMenuState extends State<BarMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text(
-          _titles[_selectedIndex],
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        iconTheme: const IconThemeData(color: Colors.white),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0.0,
+      //   title: Text(
+      //     _titles[_selectedIndex],
+      //     style: const TextStyle(
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      //   iconTheme: const IconThemeData(color: Colors.white),
+      //   leading: Builder(
+      //     builder: (BuildContext context) {
+      //       return IconButton(
+      //         icon: const Icon(Icons.menu),
+      //         onPressed: () {
+      //           Scaffold.of(context).openDrawer();
+      //         },
+      //       );
+      //     },
+      //   ),
+      // ),
       body: IndexedStack(
         index: _selectedIndex,
         children: _widgetOptions,
