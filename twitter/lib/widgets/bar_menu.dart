@@ -22,7 +22,7 @@ class _BarMenuState extends State<BarMenu> {
     "Home",
     "Search",
     "Notifications",
-    "Chats"
+    "Chat"
   ];
 
   final List<Widget> _widgetOptions = const [
@@ -45,7 +45,7 @@ class _BarMenuState extends State<BarMenu> {
         automaticallyImplyLeading: false,
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        title: _titles[_selectedIndex] == "Search"
+        title: _titles[_selectedIndex] == _titles[1]
             ? SizedBox(
                 height: 38,
                 child: TextField(

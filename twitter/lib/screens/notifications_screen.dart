@@ -10,6 +10,14 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Text("Notifications");
+    return const Center(
+      child: Text(
+        "No Notifications Yet",
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
   }
 }

@@ -60,6 +60,7 @@ class _PostWidgetState extends State<PostWidget> {
             margin: const EdgeInsets.only(top: 3, bottom: 10),
             child: const Text(
               "If you're a Nintendo Switch Online + Expansion Pack member, you can already download the Mario Kart 8 Deluxe - Booster Course Pass at no additional cost now and be ready to play at launch this friday!... 🎮🎮",
+              softWrap: true,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 15,

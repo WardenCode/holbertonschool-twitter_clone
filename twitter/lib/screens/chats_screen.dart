@@ -10,6 +10,14 @@ class ChatsScreen extends StatefulWidget {
 class _ChatsScreenState extends State<ChatsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Text("Chats");
+    return const Center(
+      child: Text(
+        "No Chats Yet",
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
   }
 }
