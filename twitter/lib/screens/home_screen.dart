@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter/widgets/post_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Text("Home");
+    return const SingleChildScrollView(
+      child: Column(
+        children: [
+          PostWidget(),
+          PostWidget(),
+          PostWidget(),
+          PostWidget(),
+          PostWidget(),
+          PostWidget(),
+        ],
+      ),
+    );
   }
 }
