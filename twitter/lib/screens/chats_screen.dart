@@ -10,6 +10,6 @@ class ChatsScreen extends StatefulWidget {
 class _ChatsScreenState extends State<ChatsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Text("Chats");
   }
 }
