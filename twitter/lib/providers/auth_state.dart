@@ -78,4 +78,8 @@ class Auth extends ChangeNotifier {
       }
     }
   }
+
+  Future logout() async {
+    await auth.signOut();
+  }
 }
