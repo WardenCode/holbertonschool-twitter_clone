@@ -26,7 +26,7 @@ class Auth extends ChangeNotifier {
             toFirestore: (user, _) => user.toJson(),
           );
 
-  attemptSignUp(email, name, password, passwordConfirmation) async {
+  Future attemptSignUp(email, name, password, passwordConfirmation) async {
     if (password != passwordConfirmation) {
       return Errors.matchError;
     }
@@ -52,6 +52,27 @@ class Auth extends ChangeNotifier {
         return Errors.weakError;
       } else if (e.code == 'email-already-in-use') {
         return Errors.existsError;
+      } else {
+        return Errors.error;
+      }
+    }
+  }
+
+  Future attemptLogin(
+    String email,
+    String password,
+  ) async {
+    try {
+      await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return Errors.none;
+    } on f.FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return Errors.noUserError;
+      } else if (e.code == 'wrong-password') {
+        return Errors.wrongError;
       } else {
         return Errors.error;
       }
