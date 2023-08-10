@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter/providers/auth_state.dart';
 import 'package:twitter/screens/forgot_password_screen.dart';
 import 'package:twitter/screens/signup_screen.dart';
 import 'package:twitter/widgets/bar_menu.dart';
@@ -86,13 +87,8 @@ class _SignInState extends State<SignIn> {
             CustomFlatButton(
               label: "Submit",
               fontWeight: FontWeight.bold,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const BarMenu(),
-                  ),
-                );
+              onPressed: () async {
+                signInUser(context);
               },
             ),
             Container(
@@ -134,5 +130,47 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }
+
+  void signInUser(BuildContext ctx) async {
+    String errorMsg = '';
+
+    final ifSignIn = await Auth().attemptLogin(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    if (ifSignIn == Errors.noUserError) {
+      errorMsg = 'No user found for that email!';
+    }
+
+    if (ifSignIn == Errors.wrongError) {
+      errorMsg = 'Wrong password!';
+    }
+
+    if (ifSignIn == Errors.error) {
+      errorMsg = 'Failed to Login! Please try later';
+    }
+    if (errorMsg == '') {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        ctx,
+        MaterialPageRoute(
+          builder: (ctx) => const BarMenu(),
+        ),
+      );
+    }
+
+    final snackBar = SnackBar(
+      content: Text(errorMsg),
+      backgroundColor: Colors.red,
+      action: SnackBarAction(
+        label: '',
+        onPressed: () {},
+      ),
+    );
+
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
   }
 }

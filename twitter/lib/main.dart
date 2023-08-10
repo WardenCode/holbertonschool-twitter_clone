@@ -1,10 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter/providers/auth_state.dart';
 import 'package:twitter/providers/share_state.dart';
 import 'package:twitter/screens/signin_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
+
+Future<void> initFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+}
+
 void main() {
+  initFirebase();
   runApp(const MyApp());
 }
 
@@ -19,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => Auth()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           appBarTheme: const AppBarTheme(
             elevation: 0.0,
