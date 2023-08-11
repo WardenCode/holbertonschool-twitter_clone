@@ -159,9 +159,11 @@ class _SignInState extends State<SignIn> {
           builder: (ctx) => const BarMenu(),
         ),
       );
+      return;
     }
 
     final snackBar = SnackBar(
+      duration: const Duration(seconds: 1),
       content: Text(errorMsg),
       backgroundColor: Colors.red,
       action: SnackBarAction(

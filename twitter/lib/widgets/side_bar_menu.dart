@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:twitter/providers/auth_state.dart';
 import 'package:twitter/screens/signin_screen.dart';
+
+import '../models/user.dart';
 
 class SideBarMenu extends StatefulWidget {
   const SideBarMenu({super.key});
@@ -9,45 +12,83 @@ class SideBarMenu extends StatefulWidget {
 }
 
 class _SideBarMenuState extends State<SideBarMenu> {
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    getAsync();
+  }
+
+  Future<void> getAsync() async {
+    try {
+      user = await Auth().getCurrentUserModel();
+    } catch (e) {
+      print(e);
+    }
+    if (mounted) setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
-          const Column(
+          Column(
             children: [
               DrawerHeader(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
                       backgroundImage: NetworkImage(
-                        "http://assets.stickpng.com/images/580b57fcd9996e24bc43c53e.png",
+                        user?.imageUrl ??  "http://assets.stickpng.com/images/580b57fcd9996e24bc43c53e.png",
                       ),
-                      radius: 30.0,
+                      radius: 25.0,
                     ),
                     Expanded(
                       child: ListTile(
-                        // ignore: sort_child_properties_last
                         contentPadding: EdgeInsets.zero,
                         title: Text(
-                          "User Name",
-                          style: TextStyle(
+                          user?.displayName ?? '',
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
                             color: Colors.black45,
                             fontSize: 15,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
                     ),
+                    Expanded(
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          user?.userName ?? '',
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            color: Colors.black45,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: 160,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("0 Followers"),
-                          Text("0 Following"),
+                          Text(
+                            "${user?.followers ?? 0} Followers",
+                            textAlign: TextAlign.start,
+                          ),
+                          Text(
+                            "${user?.following ?? 0} Following",
+                            textAlign: TextAlign.start,
+                          ),
                         ],
                       ),
                     ),
@@ -88,7 +129,9 @@ class _SideBarMenuState extends State<SideBarMenu> {
           const Divider(),
           ListTile(
             title: const Text('Logout'),
-            onTap: () {
+            onTap: () async {
+              await Auth().logout();
+              // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
                 MaterialPageRoute(

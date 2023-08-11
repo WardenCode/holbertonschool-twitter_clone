@@ -47,12 +47,4 @@ List userList = [
         'http://static1.squarespace.com/static/5a448798dc2b4ae5dbdcb6d1/5a53e4e38165f574392d527e/5b6407b203ce6419bd18854e/1596353880021/whats+next+for+donkey+kong.jpg?format=1500w',
     'isVerified': true,
   },
-  {
-    'name': 'Kritter',
-    'username': '@KritterTheKiller',
-    'bio': "",
-    'imgUrl':
-        'https://static.wikia.nocookie.net/villains/images/3/3e/Kritter_SSB_for_Wii_U.png/revision/latest?cb=20181119211905',
-    'isVerified': false,
-  },
 ];

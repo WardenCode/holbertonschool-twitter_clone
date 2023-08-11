@@ -15,6 +15,8 @@ enum Errors {
 
 class Auth extends ChangeNotifier {
   late f.FirebaseAuth auth = f.FirebaseAuth.instance;
+  f.User? get currentUser => auth.currentUser;
+  Stream<f.User?> get authStateChanges => auth.authStateChanges();
 
   final usersRef =
       FirebaseFirestore.instance.collection('users').withConverter<User>(
@@ -32,8 +34,7 @@ class Auth extends ChangeNotifier {
     }
 
     try {
-      f.UserCredential userCredential =
-          await auth.createUserWithEmailAndPassword(
+      f.UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -45,8 +46,14 @@ class Auth extends ChangeNotifier {
             userName: '@${name}Holberton',
             displayName: name,
           ))
-          .then((value) => Errors.none)
-          .catchError((error) => Errors.error);
+          .then((value) {
+            print('value $value');
+            return Errors.none;
+          })
+          .catchError((error) {
+            print('Error $error');
+            return Errors.error;
+          });
     } on f.FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return Errors.weakError;
@@ -89,10 +96,11 @@ class Auth extends ChangeNotifier {
         querySnapshot.docs.map((doc) => doc.data()).cast<User>().toList();
 
     for (var user in allUsers) {
-      if (user.userID == auth.currentUser?.uid) {
+      if (user.userID == currentUser?.uid) {
         return user;
       }
     }
+
     return {} as User;
   }
 }

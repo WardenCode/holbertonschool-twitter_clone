@@ -1,3 +1,7 @@
+import 'package:uuid/uuid.dart';
+
+const uuid = Uuid();
+
 class User {
   late String key;
   late String userID;
@@ -7,22 +11,24 @@ class User {
   late String imageUrl;
   late int followers;
   late int following;
-  late List<String> followersList;
-  late List<String> followingList;
+  late List<dynamic> followersList;
+  late List<dynamic> followingList;
 
   User({
-    String key = '',
-    String userID = '',
-    String email = '',
-    String userName = '',
-    String displayName = '',
-    String imageUrl =
+    key = '',
+    this.userID = '',
+    this.email = '',
+    this.userName = '',
+    this.displayName = '',
+    this.imageUrl =
         'https://freepngimg.com/thumb/google/66726-customer-account-google-service-button-search-logo.png',
-    int followers = 0,
-    int following = 0,
-    List<dynamic> followersList = const [],
-    List<dynamic> followingList = const [],
-  });
+    this.followers = 0,
+    this.following = 0,
+    this.followersList = const [],
+    this.followingList = const [],
+  }) {
+    this.key = uuid.v4();
+  }
 
   User.fromJson(Map<String, dynamic> map) {
     key = map["key"];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter/providers/auth_state.dart';
 import 'package:twitter/screens/forgot_password_screen.dart';
 import 'package:twitter/screens/signin_screen.dart';
 import 'package:twitter/widgets/bar_menu.dart';
@@ -80,7 +81,7 @@ class _SignUpState extends State<SignUp> {
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 20),
-              height: 320,
+              height: 340,
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Form(
                 key: _formKey,
@@ -113,13 +114,8 @@ class _SignUpState extends State<SignUp> {
             CustomFlatButton(
               label: "Submit",
               fontWeight: FontWeight.bold,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const BarMenu(),
-                  ),
-                );
+              onPressed: () async {
+                signUpUser();
               },
             ),
             Container(
@@ -142,7 +138,7 @@ class _SignUpState extends State<SignUp> {
                     },
                   ),
                   CustomFlatButton(
-                    label: "Forget Pasword?",
+                    label: "Forget Password?",
                     fontSize: 21,
                     fontWeight: FontWeight.w400,
                     onPressed: () {
@@ -161,5 +157,49 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  void signUpUser() async {
+    final ifSignUp = await Auth().attemptSignUp(
+        _emailController.text.trim(),
+        _nameController.text.trim(),
+        _passwordController.text.trim(),
+        _confirmController.text.trim()
+    );
+
+    String errorMsg = '';
+    switch (ifSignUp) {
+      case Errors.none:
+        errorMsg = 'Account Created!';
+        break;
+      case Errors.weakError:
+        errorMsg = 'The password provided is too weak.';
+        break;
+      case Errors.matchError:
+        errorMsg = 'Passwords doesn’t match.';
+        break;
+      case Errors.existsError:
+        errorMsg = 'An account already exists with that email.';
+        break;
+      case Errors.error:
+        errorMsg = 'Failed to Login! Please try later.';
+        break;
+      default:
+        errorMsg = 'Unknown error';
+    }
+
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 1),
+      content: Text(errorMsg),
+      backgroundColor: ifSignUp == Errors.none ? Colors.green : Colors.red,
+      action: SnackBarAction(
+        label: '',
+        onPressed: () {
+        },
+      ),
+    );
+
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
